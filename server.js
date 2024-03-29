@@ -1,8 +1,8 @@
 import {connect} from './config.js'
 import express from 'express';
-import carRoutes from './routes/carRoutes.js';
+// import carRoutes from './routes/carRoutes.js';
 import authRoutes from './routes/authRoutes.js';
-import ticketRoutes from './models/Ticket.js';
+// import ticketRoutes from './models/Ticket.js';
 import movieRoutes from './routes/movieRoutes.js';
 
 connect();
@@ -22,7 +22,7 @@ api.get('/test', (req, res) => {
 
 
 
-api.use(carRoutes);
+// api.use(carRoutes);
 api.use('/auth', authRoutes);
-api.use(ticketRoutes);
+// api.use(ticketRoutes);
 api.use(movieRoutes);

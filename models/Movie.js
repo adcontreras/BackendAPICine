@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 
 // prueba
+// {
 // "name": "Muerte fatal",
 // "director":"tarantino",
 // "genre": "dramma",
 // "duration": "120 min"
-
+// }
 
 const movieSchema = new mongoose.Schema({
     name: {
