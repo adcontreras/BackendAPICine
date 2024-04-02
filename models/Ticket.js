@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { clientSchema } from "./Client.js";
 
 // prueba
 // {
@@ -13,10 +14,10 @@ import mongoose from 'mongoose';
 
 
 const ticketSchema = new mongoose.Schema({
-  clientName: {
-    type: String,
-    required: true,
-  },
+  clients:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Client', //modelo de referencia 
+}],
   numberOfTickets: {
     type: Number,
     required: true,
@@ -33,11 +34,8 @@ const ticketSchema = new mongoose.Schema({
     type: String,
   },
   seats: Number,
-  email: {
-    type: String,
-    required: true,
-  },
-   isDeleted: {
+
+  isDeleted: {
     type: Boolean,
     default: false,
   },  

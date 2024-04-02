@@ -12,70 +12,46 @@ const createMovie = async (req, res) => {
     };
 };
 
-const getAllMovies = async (req, res) => {
-    const movies = await Movie.find({
-      isDeleted: false,
-    });
-    res.json(movies);
-  };
-
-  const getMovieById = async (req, res) => {
-    try {
-      //buscar un libro por id
-      const movie = await Movie.findById(req.params.movieId).populate('authors'); //polutae es una función que me regresa todos los campos de lo que le pida, en este caso de authors
-  
-      if (!book) {
-        return res.status(404).json({
-          msg: 'Libro no encontrado',
-        });
-      }
-  
-      //responder ese libro
-      return res.json(book);
-    } catch (error) {
-      res.status(500).json({
-        msg: 'Error al buscar libro por id',
-        error,
-      });
-    }
-  };
-
-
-//   const getMovieById = async (req, res) => {
-//     const movie = await Movie.findById(req.params.movieId);
-//     res.json(movie);
+// const getAllMovies = async (req, res) => {
+//     const movies = await Movie.find({
+//       isDeleted: false,
+//     });
+//     res.json(movies);
 //   };
 
-  //usar este ejemplo para traer los nombres de las pelis 
-
-//   //Get car by id ✅
-// const getCarById = async (req, res) => {
-//   const car = await Car.findById(req.params.carId);
-//   res.json(car);
+ 
+// const getMovieById = async (req, res) => {
+//   const movie = await Movie.findById(req.params.movieId);
+//   res.json(movie);
 // };
 
+const getAllMovies = async (req, res) => {
+  try {
+      let query = {
+          isDeleted: false,
+      };
 
+      if (req.query.title) {
+          query.title = { $regex: new RegExp(req.query.title, 'i') };
+      }
+      if (req.query.releaseDate) {
+          query.releaseDate = { $regex: new RegExp (req.query.releaseDate, 'i') };
+      }
+      if (req.query.raiting) {
+        query.raiting = req.query.raiting;
+    }
+      if (req.query.genre) {
+          query.genre = { $regex: new RegExp(req.query.genre, 'i') };
+      }
 
-  // const getBookById = async (req, res) => {
-  //   try {
-  //     //buscar un libro por id
-  //     const book = await Book.findById(req.params.bookId).populate('authors'); //polutae es una función que me regresa todos los campos de lo que le pida, en este caso de authors
-  
-  //     if (!book) {
-  //       return res.status(404).json({
-  //         msg: 'Libro no encontrado',
-  //       });
-  //     }
-  
-  //     //responder ese libro
-  //     return res.json(book);
-  //   } catch (error) {
-  //     res.status(500).json({
-  //       msg: 'Error al buscar libro por id',
-  //       error,
-  //     });
-  //   }
-  // };
-  
+      const movies = await Movie.find(query);
+      res.json(movies);
+  } catch (error) {
+      res.status(500).json({
+          msg: 'Error al obtener películas',
+          error,
+      });
+  }
+};
 
-export {createMovie, getAllMovies }
+export {createMovie, getAllMovies}
